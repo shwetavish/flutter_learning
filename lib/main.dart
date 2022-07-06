@@ -14,40 +14,77 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Flutter Demo'),
           ),
-          body: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                  height: 100,
-                  width: 100,
-                  child: Image.asset(
-                    'assets/images/1.jpg',
-                    fit: BoxFit.fill,
-                  )),
-              Container(
-                  height: 100,
-                  width: 100,
-                  child: Image.asset(
-                    'assets/images/2.jpg',
-                    fit: BoxFit.fill,
-                  )),
-              Container(
-                  height: 100,
-                  width: 100,
-                  child: Image.asset(
-                    'assets/images/3.jpg',
-                    fit: BoxFit.fill,
-                  )),
-            ],
-          )
-          /*const Center(
-          child: Text(
-            "Hello World!",
-            textDirection: TextDirection.ltr,
-            style: TextStyle(fontSize: 32, color: Colors.black87),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                buildProduct(),
+                buildProduct(),
+                buildProduct(),
+                buildProduct(),
+                buildProduct(),
+                buildProduct(),
+              ],
+            ),
+          )),
+    );
+  }
+
+  buildProduct() {
+    return Column(
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.widgets,
+                  size: 50,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Product Name',
+                      style: TextStyle(color: Colors.black87, fontSize: 18),
+                    ),
+                    Text(
+                      'Price',
+                      style: TextStyle(color: Colors.black45, fontSize: 15),
+                    ),
+                  ],
+                ),
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Icon(
+                      Icons.star,
+                      color: Colors.black38,
+                    ),
+                  ],
+                ))
+              ],
+            ),
           ),
-        ),*/
-          ),
+        ),
+      ],
+    );
+  }
+
+  buildProductTile() {
+    return const ListTile(
+      leading: Icon(
+        Icons.account_circle,
+        size: 50,
+      ),
+      title: Text('Product 1'),
+      subtitle: Text('Description 1'),
+      trailing: Icon(Icons.star),
     );
   }
 }
