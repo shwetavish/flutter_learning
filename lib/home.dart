@@ -12,15 +12,23 @@ class HomePage extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                buildProduct(),
-                buildProduct(),
-                buildProduct(),
-                buildProduct(),
-                buildProduct(),
-                buildProduct(),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                  buildProduct(),
+                ],
+              ),
             ),
           )),
     );
