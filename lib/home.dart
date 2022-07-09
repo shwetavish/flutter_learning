@@ -1,62 +1,107 @@
+import 'package:badges/badges.dart';
+import 'package:demo_layout_widget/add_product.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var _cartItem = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
           appBar: AppBar(
             title: const Text('Flutter Demo'),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                child: Badge(
+                  child: const Icon(Icons.shopping_cart),
+                  position: BadgePosition.topEnd(top: 4, end: -8),
+                  badgeContent: Text(
+                    '$_cartItem',
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                  showBadge: _cartItem > 0 ? true : false,
+                ),
+              )
+            ],
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                  buildProduct(),
-                ],
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  if (index % 2 == 0) {
+                    return buildProduct(index + 1);
+                  } else {
+                    return buildProductTile(index + 1);
+                  }
+                },
+                itemCount: 50,
+              )
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.vertical,
+              //   child: Column(
+              //     children: [
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //       buildProduct(),
+              //     ],
+              //   ),
+              // ),
               ),
-            ),
-          )),
-    );
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddProduct(),
+                  ));
+            },
+          ),
+        ));
   }
 
-  buildProduct() {
+  buildProduct(int index) {
     return Column(
       children: [
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
                 const Icon(
                   Icons.widgets,
                   size: 50,
+                  color: Colors.black,
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 16,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Product Name',
-                      style: TextStyle(color: Colors.black87, fontSize: 18),
+                      'Product $index',
+                      style: const TextStyle(color: Colors.black87, fontSize: 18),
                     ),
-                    Text(
+                    const Text(
                       'Price',
                       style: TextStyle(color: Colors.black45, fontSize: 15),
                     ),
@@ -65,10 +110,13 @@ class HomePage extends StatelessWidget {
                 Expanded(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Icon(
-                      Icons.star,
-                      color: Colors.black38,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.add_shopping_cart,
+                        color: Colors.black38,
+                      ),
+                      onPressed: () => _addToCart(),
                     ),
                   ],
                 ))
@@ -80,15 +128,35 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  buildProductTile() {
-    return const ListTile(
-      leading: Icon(
-        Icons.account_circle,
-        size: 50,
-      ),
-      title: Text('Product 1'),
-      subtitle: Text('Description 1'),
-      trailing: Icon(Icons.star),
+  buildProductTile(int index) {
+    return Card(
+      child: ListTile(
+          leading: const Icon(
+            Icons.widgets,
+            size: 50,
+            color: Colors.black,
+          ),
+          title: Text(
+            'Product $index',
+            style: const TextStyle(color: Colors.black87, fontSize: 18),
+          ),
+          subtitle: const Text(
+            'Price',
+            style: TextStyle(color: Colors.black45, fontSize: 15),
+          ),
+          trailing: IconButton(
+            icon: const Icon(
+              Icons.add_shopping_cart,
+              color: Colors.black38,
+            ),
+            onPressed: () => _addToCart(),
+          )),
     );
+  }
+
+  _addToCart() {
+    setState(() {
+      _cartItem++;
+    });
   }
 }
