@@ -14,68 +14,66 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Flutter Demo'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                child: Badge(
-                  child: const Icon(Icons.shopping_cart),
-                  position: BadgePosition.topEnd(top: 4, end: -8),
-                  badgeContent: Text(
-                    '$_cartItem',
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                  showBadge: _cartItem > 0 ? true : false,
-                ),
-              )
-            ],
-          ),
-          body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index % 2 == 0) {
-                    return buildProduct(index + 1);
-                  } else {
-                    return buildProductTile(index + 1);
-                  }
-                },
-                itemCount: 50,
-              )
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.vertical,
-              //   child: Column(
-              //     children: [
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //       buildProduct(),
-              //     ],
-              //   ),
-              // ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Demo'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: Badge(
+              position: BadgePosition.topEnd(top: 4, end: -8),
+              badgeContent: Text(
+                '$_cartItem',
+                style: const TextStyle(color: Colors.white, fontSize: 10),
               ),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddProduct(),
-                  ));
+              showBadge: _cartItem > 0 ? true : false,
+              child: const Icon(Icons.shopping_cart),
+            ),
+          )
+        ],
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              if (index % 2 == 0) {
+                return buildProduct(index + 1);
+              } else {
+                return buildProductTile(index + 1);
+              }
             },
+            itemCount: 50,
+          )
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.vertical,
+          //   child: Column(
+          //     children: [
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //       buildProduct(),
+          //     ],
+          //   ),
+          // ),
           ),
-        ));
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddProduct(),
+              ));
+        },
+      ),
+    );
   }
 
   buildProduct(int index) {
