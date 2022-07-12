@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:demo_layout_widget/add_product.dart';
+import 'package:demo_layout_widget/product.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _cartItem = 0;
+  late final List<Product> productList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +67,18 @@ class _HomePageState extends State<HomePage> {
           ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          Product product = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const AddProduct(),
               ));
+
+          productList.add(product);
+          print(productList);
+
+          print('Hello');
+          print('Hello 1');
         },
       ),
     );

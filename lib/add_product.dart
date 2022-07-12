@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:demo_layout_widget/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -17,6 +18,9 @@ class _AddProductState extends State<AddProduct> {
   final _formKey = GlobalKey<FormState>();
   String buttonText = 'Select an Image';
   CroppedFile? imageFile;
+
+  final _productNameController = TextEditingController();
+  final _productPriceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,9 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(hintText: 'Product Name'),
-                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-z A-Z]'))],
+                  controller: _productNameController,
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9 ]'))],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter Product Name';
@@ -63,8 +69,9 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(hintText: 'Price'),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: _productPriceController,
+                  keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: true),
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]'))],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter Price';
@@ -79,7 +86,22 @@ class _AddProductState extends State<AddProduct> {
                 ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pop(context);
+                        if (imageFile == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please choose image'),
+                            ),
+                          );
+                        } else {
+                          Navigator.pop(
+                            context,
+                            Product(
+                              name: _productNameController.text,
+                              price: double.parse(_productPriceController.text),
+                              image: File(imageFile!.path),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: const Text('Save'))
