@@ -37,14 +37,18 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
-            itemBuilder: (context, index) {
+            /*itemBuilder: (context, index) {
               if (index % 2 == 0) {
                 return buildProduct(index + 1);
               } else {
                 return buildProductTile(index + 1);
               }
             },
-            itemCount: 50,
+            itemCount: 50,*/
+            itemCount: productList.length,
+            itemBuilder: (context, index) {
+              return buildProductTile(productList[index]);
+            },
           )
           // SingleChildScrollView(
           //   scrollDirection: Axis.vertical,
@@ -74,7 +78,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => const AddProduct(),
               ));
 
-          productList.add(product);
+          setState(() {
+            productList.add(product);
+          });
           print(productList);
 
           print('Hello');
@@ -134,21 +140,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  buildProductTile(int index) {
+  buildProductTile(Product product) {
     return Card(
       child: ListTile(
-          leading: const Icon(
-            Icons.widgets,
-            size: 50,
-            color: Colors.black,
+          leading: CircleAvatar(
+            backgroundImage: FileImage(product.image),
+            backgroundColor: Colors.transparent,
           ),
           title: Text(
-            'Product $index',
+            product.name,
             style: const TextStyle(color: Colors.black87, fontSize: 18),
           ),
-          subtitle: const Text(
-            'Price',
-            style: TextStyle(color: Colors.black45, fontSize: 15),
+          subtitle: Text(
+            '${product.price}',
+            style: const TextStyle(color: Colors.black45, fontSize: 15),
           ),
           trailing: IconButton(
             icon: const Icon(

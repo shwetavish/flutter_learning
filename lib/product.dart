@@ -1,9 +1,9 @@
 import 'dart:io';
 
 class Product {
-  late String _name;
-  late double _price;
-  late File _image;
+  late String name;
+  late double price;
+  late File image;
 
-  Product({required String name, required double price, required File image});
+  Product({required this.name, required this.price, required this.image});
 }
