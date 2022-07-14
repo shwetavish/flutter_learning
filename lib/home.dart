@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:badges/badges.dart';
 import 'package:demo_layout_widget/add_product.dart';
 import 'package:demo_layout_widget/product.dart';
@@ -143,9 +145,40 @@ class _HomePageState extends State<HomePage> {
   buildProductTile(Product product) {
     return Card(
       child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: FileImage(product.image),
-            backgroundColor: Colors.transparent,
+          leading: InkWell(
+            onTap: () {
+              log('on tap ${product.name}');
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  transitionDuration: const Duration(milliseconds: 500),
+                  pageBuilder: (
+                    BuildContext context,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ) {
+                    return Hero(
+                      tag: 'zoom',
+                      child: Image.file(product.image),
+                    );
+                  },
+                  transitionsBuilder: (
+                    BuildContext context,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                    Widget child,
+                  ) {
+                    return child;
+                  },
+                ),
+              );
+            },
+            child: Hero(
+              tag: 'zoom',
+              child: CircleAvatar(
+                backgroundImage: FileImage(product.image),
+                backgroundColor: Colors.transparent,
+              ),
+            ),
           ),
           title: Text(
             product.name,
