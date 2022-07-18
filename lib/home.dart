@@ -38,38 +38,29 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            /*itemBuilder: (context, index) {
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return buildProductTile(productList[index]);
+                }, childCount: (productList.length)),
+              ),
+            ],
+          )
+          /* ListView.builder(
+          */ /*itemBuilder: (context, index) {
               if (index % 2 == 0) {
                 return buildProduct(index + 1);
               } else {
                 return buildProductTile(index + 1);
               }
             },
-            itemCount: 50,*/
-            itemCount: productList.length,
-            itemBuilder: (context, index) {
-              return buildProductTile(productList[index]);
-            },
-          )
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.vertical,
-          //   child: Column(
-          //     children: [
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //       buildProduct(),
-          //     ],
-          //   ),
-          // ),
+            itemCount: 50,*/ /*
+          itemCount: productList.length,
+          itemBuilder: (context, index) {
+            return buildProductTile(productList[index]);
+          },
+        ),*/
           ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
